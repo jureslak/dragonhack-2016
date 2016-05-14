@@ -11,3 +11,24 @@
     <a class="btn btn-primary btn-lg" href="statistics/" role="button">View statistics</a>
   </p>
 </div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="gallery-item">
+      <img src="/static/img/student-test.jpg" width=360 height=150>
+      <h3>Take the test</h3>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="gallery-item">
+      <img src="/static/img/results.jpg" width=360 height=150>
+      <h3>Track your results</h3>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="gallery-item">
+      <img src="/static/img/statistics.jpg" width=360 height=150>
+      <h3>View the statistics</h3>
+    </div>
+  </div>
+</div>

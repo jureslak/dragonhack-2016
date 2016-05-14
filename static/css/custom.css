@@ -1,0 +1,22 @@
+.jumbotron h1 {
+  font-size: 55px;
+  margin-bottom: 25px;
+}
+
+.jumbotron p {
+  font-size: 20px;
+}
+
+.jumbotron .btn-lg {
+  margin-top: 10px;
+  padding: 12px 18px;
+}
+
+.jumbotron {
+  padding: 12px 0;
+  background-color: #dddfe9;
+}
+
+.gallery-item h3 {
+  text-align: center;
+}
