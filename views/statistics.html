@@ -1,0 +1,41 @@
+% rebase base
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <h1>Statistics</h1>
+    <p>
+      Games played: {{games_played}} <br />
+      Optimal solutions found: {{optimal_games_played}} <br />
+      Average optimal solution length: {{avg_opt_sol_len}}
+    </p>
+
+    <div id="chart1"></div>
+    <div id="legend1"></div>
+
+  </div>
+</div>
+
+<script src="/static/rickshaw/vendor/d3.min.js"></script>
+<script src="/static/rickshaw/vendor/d3.layout.min.js"></script>
+<script src="/static/rickshaw/rickshaw.min.js"></script>
+<script>
+var graph1 = new Rickshaw.Graph({
+    element: document.querySelector("#chart1"),
+    renderer: 'line',
+    series: [{
+            name: "Your number of moves per game",
+            data: [{ x: 0, y: 40 }, { x: 1, y: 49 }],
+            color: 'steelblue'
+    }, {
+            name: "Optimal number of moves per game",
+            data: [{ x: 0, y: 20 }, { x: 1, y: 24 }],
+            color: 'lightblue'
+    }]
+});
+
+var legend = new Rickshaw.Graph.Legend({
+    graph: graph1,
+    element: document.querySelector('#legend1')
+});
+
+graph1.render();
+</script>
