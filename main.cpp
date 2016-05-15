@@ -224,6 +224,7 @@ void myoRoutine() {
 			mtx3->lock();
 			game = false;
 			mtx3->unlock();
+			myo->unlock(myo::Myo::unlockTimed);
 			cout << -1 << " " << avgDev;
 			break;
 		}
@@ -404,8 +405,6 @@ int main() {
 				}
 			}
 		}
-		if (!myoThread->joinable())
-			running = false;
 
 		window->clear(sf::Color::White);
 		draw();
