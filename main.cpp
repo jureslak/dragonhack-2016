@@ -26,8 +26,11 @@ sf::CircleShape *tri;
 double avgDev = 0;
 
 #define MYO_CALL_TIME 50
-//#define PATH "C:\\Users\\milos\\Desktop\\"
+#ifdef _DEBUG
+#define PATH "C:\\Users\\milos\\Desktop\\"
+#else
 #define PATH ""
+#endif
 
 void get_input_data(std::vector<std::vector<int>>& balls) {
 	for (auto& x : balls) {
