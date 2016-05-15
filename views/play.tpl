@@ -42,12 +42,15 @@
       </li>
     </ul>
   </div>
+  <h3>View the statistics</h3>
+  link to stats
 </div>
 
 <div rv-unless="glob.result">No results.</span>
 
+
 </div>
-<script src="/static/js/rivets.js"></script>
+<!-- <script src="/static/js/rivets.js"></script> -->
 <script>
 function has_ended() {
   $.post('/is_running/', {}, function(data) {

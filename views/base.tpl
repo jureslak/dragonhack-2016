@@ -20,6 +20,8 @@
     <![endif]-->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/rivets.js"></script>
   </head>
   <body>
   <nav class="navbar navbar-default">
@@ -53,7 +55,5 @@
     </div>
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/rivets.js"></script>
   </body>
 </html>
