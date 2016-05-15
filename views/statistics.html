@@ -9,8 +9,11 @@
       Average optimal solution length: {{avg_opt_sol_len}}
     </p>
 
-    <div id="chart1"></div>
-    <div id="legend1"></div>
+    <div id="chart-container1" class="chart-container">
+      <div id="y-axis1" class="y-axis"></div>
+      <div id="chart1" class="chart"></div>
+      <div id="legend1" class="legend"></div>
+    </div>
 
   </div>
 </div>
@@ -33,10 +36,22 @@ var graph1 = new Rickshaw.Graph({
     }]
 });
 
-var legend = new Rickshaw.Graph.Legend({
+var legend1 = new Rickshaw.Graph.Legend({
     graph: graph1,
     element: document.querySelector('#legend1')
 });
+
+var x_axis1 = new Rickshaw.Graph.Axis.X( { graph: graph1 } );
+var y_axis1 = new Rickshaw.Graph.Axis.Y( {
+        graph: graph1,
+        orientation: 'left',
+        //tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+        element: document.getElementById('y-axis1'),
+} );
+
+var hoverDetail1 = new Rickshaw.Graph.HoverDetail( {
+    graph: graph1
+} );
 
 graph1.render();
 </script>

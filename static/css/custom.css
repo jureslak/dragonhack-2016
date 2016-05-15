@@ -8,13 +8,15 @@
 }
 
 .jumbotron .btn-lg {
-  margin-top: 10px;
+  margin-top: 20px;
   padding: 12px 18px;
 }
 
 .jumbotron {
-  padding: 12px 0;
+  padding: 20px 0;
   background-color: #dddfe9;
+  margin-bottom: 50px;
+  margin-top: 30px;
 }
 
 .gallery-item h3 {
@@ -23,7 +25,28 @@
 
 .navbar-brand,
 .navbar-nav li a {
-    line-height: 60px;
-    height: 60px;
-    padding-top: 0;
+  line-height: 60px;
+  height: 60px;
+  padding-top: 0;
+}
+
+.chart-container {
+  position: relative;
+  display: inline-block;
+}
+.chart {
+  display: inline-block;
+  left: 40px;
+}
+.y-axis {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+}
+
+.legend {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 0 10px;
 }
