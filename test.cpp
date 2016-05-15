@@ -72,6 +72,6 @@ int main(void) {
 		if (!wat) cout << mvs[i].from << ' ' << mvs[i].to << ' ' << mvs[i].id << ' ' << diff.count() << '\n';
 		else cout << mvs[i].to << ' ' << mvs[i].from << ' ' << mvs[i--].id << ' ' << diff.count() << '\n';
 	}
-
+    cout << -1 << ' ' << 1.3 << endl;
 	return 0;
 }
