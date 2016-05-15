@@ -29,9 +29,9 @@
       <td rv-each-data="row">{data}</td>
     </tr>
   </table>
-
-  <div>Your moves: {glob.result | lenm1}</div>
-  <div>Optimal moves: {glob.problem.path | lenm1}</div>
+  <h4>Shaking level: {glob.acc}</h4>
+  <h4>Your moves: {glob.result | lenm1}</h4>
+  <h4>Optimal moves: {glob.problem.path | lenm1}</h4>
   <h3>Show optimal path vs. your path</h3>
   <button class="btn btn-primary btn-md" data-toggle="collapse" data-target="#paths" onclick='arrhide()'>Toggle</button>
   <div id="paths" class="collapse">
@@ -90,6 +90,7 @@ function finished() {
     if (result.fail == false) {
       glob.result = result.moves;
       glob.your_path = result.your_path;
+      glob.acc = result.acc;
     }
   });
   $("#runbutton").attr("disabled", false);
