@@ -7,7 +7,7 @@
     We present an easy-to-use version of the test that tracks your results and analyses your progress.
   </p>
   <p>
-    <a class="btn btn-primary btn-lg" href="#" role="button">Run test</a>
+    <a class="btn btn-primary btn-lg" href="play/" role="button" onclick="run_test()">Run test</a>
     <a class="btn btn-primary btn-lg" href="statistics/" role="button">View statistics</a>
   </p>
 </div>

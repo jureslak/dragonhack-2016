@@ -98,20 +98,23 @@ def find_shortest_path(s, t):
         x = prev[x]
     return list(reversed(path))
 
-s = '14|2|3'
-t = '3|2|14'
+#  s = '14|2|3'
+#  t = '3|2|14'
 #  print(str2state(s))
-path = find_shortest_path(s, t)
+#  path = find_shortest_path(s, t)
 #  print(path)
 
 # returns problem with path length in [m, M]
-def random_easy_problem(m, M):
+# TODO change back
+def random_problem(m, M):
     while True:
         a = choice(NODES)
         b = choice(NODES)
+        a = '14|2|3'
+        b = '3|2|14'
         path = find_shortest_path(a, b)
-        if m <= len(path) <= M:
-            return a, b, path
+#          if m <= len(path) <= M:
+        return a, b, path
 
 def output_problem(h, start, end):
     s = '{} {}\n'.format(len(h), len(start) - len(h) + 1)

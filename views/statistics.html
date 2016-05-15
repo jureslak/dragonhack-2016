@@ -1,4 +1,5 @@
 % rebase base
+% import json
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <h1>Statistics</h1>
@@ -23,11 +24,11 @@ var graph1 = new Rickshaw.Graph({
     renderer: 'line',
     series: [{
             name: "Your number of moves per game",
-            data: [{ x: 0, y: 40 }, { x: 1, y: 49 }],
+            data: {{!json.dumps(usr_moves)}},
             color: 'steelblue'
     }, {
             name: "Optimal number of moves per game",
-            data: [{ x: 0, y: 20 }, { x: 1, y: 24 }],
+            data: {{!json.dumps(opt_moves)}},
             color: 'lightblue'
     }]
 });
