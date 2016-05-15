@@ -1,24 +1,30 @@
 %rebase base
 <div id='all'>
+<h1>Choose difficulty</h1>
 <form action='/runapp/' method="post">
-  <label>Minimal length:</label>
-  <input type='text' name='mini' value='3'><br>
-  <label>Maximal length:</label>
-  <input type='text' name='maxi' value='5'><br>
-  <input type="button" name='done' value='run' class='btn btn-default'
-         id='runbutton' onclick="run_test()">
+  <table>
+    <tr>
+      <td><label>Minimal number of optimal moves:</label></td>
+      <td><input type='text' name='mini' value='3'></td>
+    </tr>
+    <tr>
+      <td><label>Maximal number of optimal moves:</label></td>
+      <td><input type='text' name='maxi' value='5'></td>
+    </tr>
+  </table>
+  <input type="button" name='done' value='Run' class='btn btn-primary' id='runbutton' onclick="run_test()">
 </form>
 
 <div rv-if="glob.problem" id="prob">
   <h1>Current problem</h1>
   <img class='state' rv-src='glob.problem.start | img'>
-  to
+  <img class='arrow' src='/static/img/arrow.png'>
   <img class='state' rv-src='glob.problem.end | img'>
 </div>
 
 <div rv-if='glob.result' id='raw-results' class="collapse in">
   <h1>Last test results</h1>
-  <table class="table table-bordered" id="result-table">
+  <table class="table table-striped table-hover" id="result-table">
     <tr rv-each-row="glob.result">
       <td rv-each-data="row">{data}</td>
     </tr>
@@ -26,27 +32,34 @@
 
   <div>Your moves: {glob.result | len}</div>
   <div>Optimal moves: {glob.problem.path | len}</div>
-  <h3>Show optimal vs. your path:</h3><a href='#' class="btn btn-primary btn-lg" onclick='$("optpath").toggle();'>toggle</a>
-  <div id='optpath'>
-    <ul>
-      <li rv-each-state="glob.problem.path" class='pathdesc'>
-        <img class='state' rv-src='state | img'>
-      </li>
-    </ul>
+  <h3>Show optimal path vs. your path</h3>
+  <button class="btn btn-primary btn-md" data-toggle="collapse" data-target="#paths">Toggle</button>
+  <div id="paths" class="collapse">
+    <h4>Optimal moves</h4>
+    <div id='optpath' class='path'>
+      <ul>
+        <li rv-each-state="glob.problem.path" class='pathdesc'>
+          <img class='state' rv-src='state | img'>
+          <img class='arrow' src='/static/img/arrow.png'>
+        </li>
+      </ul>
+    </div>
+    <h4>Your moves</h4>
+    <div id='yourpath' class='path'>
+      <ul>
+        <li rv-each-state="glob.your_path" class='pathdesc'>
+          <img class='state' rv-src='state | img'>
+          <img class='arrow' src='/static/img/arrow.png'>
+        </li>
+      </ul>
+    </div>
   </div>
-  -------------------------
-  <div id='yourpath'>
-    <ul>
-      <li rv-each-state="glob.your_path" class='pathdesc'>
-        <img class='state' rv-src='state | img'>
-      </li>
-    </ul>
-  </div>
-  <h3>View the statistics</h3>
-  link to stats
+  <h3><a href="/statistics/">View the statistics</a></h3>
 </div>
 
-<div rv-unless="glob.result">No results.</span>
+<div rv-unless="glob.result">
+<p id="no-result">No results.</p>
+</div>
 
 
 </div>

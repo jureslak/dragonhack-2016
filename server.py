@@ -30,7 +30,7 @@ def run_program():
     M = int(request.forms.get('maxi'))
 
     output.start, output.end, output.path = random_problem(m, M)
-    proc  = Popen('./jimm', stdin=PIPE, stdout=PIPE)
+    proc  = Popen('jimm.exe', stdin=PIPE, stdout=PIPE)
     s = output_problem(HEIGHTS, output.start, output.end)
     proc.stdin.write(bytes(s, 'utf8'))
     proc_thread.start()
@@ -59,6 +59,7 @@ def get_result():
     print(moves)
     your_path = [str2state(output.start)]
     for i in moves[1:]:
+        print(i)
         cur = deepcopy(your_path[-1])
         tmp = cur[i[1]-1].pop()
         cur[i[2]-1].append(tmp)
