@@ -24,8 +24,8 @@
     </tr>
   </table>
 
-  <div>Your moves: {glob.result | len}</div>
-  <div>Optimal moves: {glob.problem.path | len}</div>
+  <div>Your moves: {glob.result | lenm1}</div>
+  <div>Optimal moves: {glob.problem.path | lenm1}</div>
   <h3>Show optimal vs. your path:</h3><a href='#' class="btn btn-primary btn-lg" onclick='$("optpath").toggle();'>toggle</a>
   <div id='optpath'>
     <ul>
@@ -47,7 +47,6 @@
 </div>
 
 <div rv-unless="glob.result">No results.</span>
-
 
 </div>
 <!-- <script src="/static/js/rivets.js"></script> -->
@@ -75,8 +74,10 @@ function run_test() {
 function finished() {
   $.post('/get_result/', {}, function(data) {
     var result = $.parseJSON(data);
-    glob.result = result.moves;
-    glob.your_path = result.your_path;
+    if (result.fail == false) {
+      glob.result = result.moves;
+      glob.your_path = result.your_path;
+    }
   });
   $("#runbutton").attr("disabled", false);
   glob.running = false;
@@ -112,6 +113,10 @@ rivets.formatters.img = function(value){
 
 rivets.formatters.len = function(value){
   return value.length;
+}
+
+rivets.formatters.lenm1 = function(value){
+  return value.length - 1;
 }
 
 });

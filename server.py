@@ -46,13 +46,18 @@ from copy import deepcopy
 def get_result():
     data = output.out.decode('utf8')
     data = data.strip('\n').split('\n')
+    print(data)
+    code, acc = data.pop().split()
+    if code != '-1':
+        return json.dumps({'fail': True})
     global conn, out
     c = conn.cursor()
     moves = [['Move number', 'From peg', 'To peg', 'Ball moved', 'Time needed']]
     total = 0
+    acc = float(acc);
     for cnt, i in enumerate(data):
         i = i.split()
-        moves.append(['Move {}'.format(cnt),
+        moves.append(['Move {}'.format(cnt+1),
             int(i[0]), int(i[1]), int(i[2]), float(i[3])
         ])
         total += moves[-1][-1]
@@ -66,9 +71,9 @@ def get_result():
     your_path = list(map(state2str, your_path))
 #      print(your_path)
 
-    c.execute('''INSERT into runs VALUES (?, ?, ?, ?, ?, ?)''',
+    c.execute('''INSERT into runs VALUES (?, ?, ?, ?, ?, ?, ?)''',
               (None, len(output.path), output.start, output.end,
-              len(data), total))
+              len(data), total, acc))
     key = c.execute('''SELECT MAX(id) FROM runs''').fetchone()
     key = key[0]
     if key is None: key = 0
@@ -76,7 +81,7 @@ def get_result():
         c.execute('''INSERT INTO moves VALUES (?, ?, ?, ?, ?, ?)''',
             (None, i[3], i[0], i[1], i[2], key))
     conn.commit()
-    return json.dumps({'moves': moves, 'your_path': your_path})
+    return json.dumps({'fail': False, 'moves': moves, 'your_path': your_path, 'acc': acc})
 
 @route('/static/<filename:path>')
 def send_static(filename):
@@ -100,25 +105,29 @@ def statistics():
     games_played = key
     optimal_games_played = 0
     avg_opt_sol_len = 0
+    avg_usr_sol_len = 0
     moves = []
     opt_moves = []
     r = c.execute('''SELECT * FROM runs ORDER BY id DESC LIMIT 100''')
+    acc = []
     cnt = 0
     for x in r:
         cnt += 1
-        uid, opt, start, end, user, time = x
+        uid, opt, start, end, user, time, accc = x
         avg_opt_sol_len += opt
+        avg_usr_sol_len += user
         optimal_games_played += opt == user
         opt_moves.append({'x': cnt, 'y': opt})
         moves.append({'x': cnt, 'y': user})
+        acc.append({'x': cnt, 'y': accc})
 
     avg_opt_sol_len /= games_played
     avg_opt_sol_len = round(avg_opt_sol_len, 2)
 
     return template('statistics', current_page='statistics', games_played=games_played,
                     optimal_games_played=optimal_games_played,
-                    avg_opt_sol_len=avg_opt_sol_len,
-                    opt_moves=opt_moves, usr_moves=moves)
+                    avg_opt_sol_len=avg_opt_sol_len, avg_usr_sol_len=avg_usr_sol_len,
+                    opt_moves=opt_moves, usr_moves=moves, acc=acc)
 
 @route('/about/')
 def about():

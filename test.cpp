@@ -57,7 +57,7 @@ int main(void) {
 	}
 	mt19937_64 gen(clock());
 	uniform_int_distribution<int> dist(50,200);
-	uniform_int_distribution<int> yesno(0, 1);
+	uniform_int_distribution<int> yesno(0, 0);
 	//Print: FROM TO WHO LENGTH
 	mv mvs[] = { {1,2,1}, {2,3,1}, {3,2,1}, {1,2,4}, {3,1,3}, {2,3,4}, {2,3,1} };
 	auto start = chrono::high_resolution_clock::now();
@@ -72,6 +72,6 @@ int main(void) {
 		if (!wat) cout << mvs[i].from << ' ' << mvs[i].to << ' ' << mvs[i].id << ' ' << diff.count() << '\n';
 		else cout << mvs[i].to << ' ' << mvs[i].from << ' ' << mvs[i--].id << ' ' << diff.count() << '\n';
 	}
-
+    cout << -1 << ' ' << 1.3 << endl;
 	return 0;
 }
