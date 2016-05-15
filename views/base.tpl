@@ -34,16 +34,35 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">The Tower of London test</a>
+        <a class="navbar-brand" href="/">The Tower of London test</a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
+        %if current_page == 'home':
           <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
+        %else:
+          <li><a href="/">Home</a></li>
+        %end
+
+        %if current_page == 'play':
+          <li class="active"><a href="/play/">Run test <span class="sr-only">(current)</span></a></li>
+        %else:
           <li><a href="/play/">Run test</a></li>
+        %end
+
+        %if current_page == 'statistics':
+          <li class="active"><a href="/statistics/">Statistics <span class="sr-only">(current)</span></a></li>
+        %else:
           <li><a href="/statistics/">Statistics</a></li>
+        %end
+
+        %if current_page == 'about':
+          <li class="active"><a href="/about/">About <span class="sr-only">(current)</span></a></li>
+        %else:
           <li><a href="/about/">About</a></li>
+        %end
         </ul>
         <ul class="nav navbar-nav navbar-right">
         </ul>

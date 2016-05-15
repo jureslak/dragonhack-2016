@@ -83,13 +83,12 @@ def send_static(filename):
     return static_file(filename, root='./static')
 
 @route('/play/')
-@view('play')
 def play():
-    return {}
+    return template('play', current_page='play')
 
 @route('/')
 def main():
-    return template('main')
+    return template('main', current_page='home')
 
 @route('/statistics/')
 def statistics():
@@ -114,14 +113,15 @@ def statistics():
         moves.append({'x': cnt, 'y': user})
 
     avg_opt_sol_len /= games_played
+    avg_opt_sol_len = round(avg_opt_sol_len, 2)
 
-    return template('statistics', games_played=games_played,
+    return template('statistics', current_page='statistics', games_played=games_played,
                     optimal_games_played=optimal_games_played,
                     avg_opt_sol_len=avg_opt_sol_len,
                     opt_moves=opt_moves, usr_moves=moves)
 
 @route('/about/')
 def about():
-    return template('about')
+    return template('about', current_page='about')
 
 run(host='localhost', port=8080)

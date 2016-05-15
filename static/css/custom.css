@@ -20,3 +20,10 @@
 .gallery-item h3 {
   text-align: center;
 }
+
+.navbar-brand,
+.navbar-nav li a {
+    line-height: 60px;
+    height: 60px;
+    padding-top: 0;
+}
