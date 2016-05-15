@@ -73,7 +73,7 @@ def get_result():
 #      print(your_path)
 
     c.execute('''INSERT into runs VALUES (?, ?, ?, ?, ?, ?, ?)''',
-              (None, len(output.path), output.start, output.end,
+              (None, len(output.path) - 1, output.start, output.end,
               len(data), total, acc))
     key = c.execute('''SELECT MAX(id) FROM runs''').fetchone()
     key = key[0]
