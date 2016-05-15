@@ -33,7 +33,7 @@
   <div>Your moves: {glob.result | lenm1}</div>
   <div>Optimal moves: {glob.problem.path | lenm1}</div>
   <h3>Show optimal path vs. your path</h3>
-  <button class="btn btn-primary btn-md" data-toggle="collapse" data-target="#paths">Toggle</button>
+  <button class="btn btn-primary btn-md" data-toggle="collapse" data-target="#paths" onclick='arrhide()'>Toggle</button>
   <div id="paths" class="collapse">
     <h4>Optimal moves</h4>
     <div id='optpath' class='path'>
@@ -94,6 +94,7 @@ function finished() {
   });
   $("#runbutton").attr("disabled", false);
   glob.running = false;
+
 }
 $(function() {
 rivets.configure({
@@ -131,6 +132,11 @@ rivets.formatters.len = function(value){
 rivets.formatters.lenm1 = function(value){
   return value.length - 1;
 }
-
 });
+function arrhide() {
+  var a = $('#optpath img.arrow');
+  a[a.length-1].style.display = 'none';
+  var b = $('#yourpath img.arrow');
+  b[b.length-1].style.display = 'none';
+}
 </script>
