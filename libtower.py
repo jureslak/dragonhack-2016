@@ -110,11 +110,11 @@ def random_problem(m, M):
     while True:
         a = choice(NODES)
         b = choice(NODES)
-        a = '14|2|3'
-        b = '3|2|14'
+#          a = '14|2|3'
+#          b = '3|2|14'
         path = find_shortest_path(a, b)
-#          if m <= len(path) <= M:
-        return a, b, path
+        if m <= len(path) <= M:
+            return a, b, path
 
 def output_problem(h, start, end):
     s = '{} {}\n'.format(len(h), len(start) - len(h) + 1)
