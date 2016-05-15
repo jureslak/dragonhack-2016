@@ -105,13 +105,10 @@ def find_shortest_path(s, t):
 #  print(path)
 
 # returns problem with path length in [m, M]
-# TODO change back
 def random_problem(m, M):
     while True:
         a = choice(NODES)
         b = choice(NODES)
-#          a = '14|2|3'
-#          b = '3|2|14'
         path = find_shortest_path(a, b)
         if m <= len(path) <= M:
             return a, b, path

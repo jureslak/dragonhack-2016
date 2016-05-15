@@ -4,7 +4,7 @@
   <div class="col-md-8 col-md-offset-2">
     <h1>Statistics</h1>
     <p>
-      Games played: {{games_played}} <br />
+      Tests taken: {{games_played}} <br />
       Optimal solutions found: {{optimal_games_played}} <br />
       Average optimal solution length: {{avg_opt_sol_len}} <br>
       Your optimal solution length: {{avg_usr_sol_len}}
@@ -17,6 +17,7 @@
       <div id="legend1" class="legend"></div>
     </div>
 
+    <h3>Shaking levels</h3>
     <div id="chart-container2" class="chart-container">
       <div id="y-axis2" class="y-axis"></div>
       <div id="chart2" class="chart"></div>

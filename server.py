@@ -46,7 +46,6 @@ from copy import deepcopy
 def get_result():
     data = output.out.decode('utf8')
     data = data.strip('\n').split('\n')
-    print(data)
     code, acc = data.pop().split()
     if code != '-1':
         return json.dumps({'fail': True})
@@ -61,7 +60,6 @@ def get_result():
             int(i[0]), int(i[1]), int(i[2]), float(i[3])
         ])
         total += moves[-1][-1]
-    print(moves)
     your_path = [str2state(output.start)]
     for i in moves[1:]:
         print(i)
@@ -89,14 +87,17 @@ def send_static(filename):
     return static_file(filename, root='./static')
 
 @route('/play/')
+@view('play')
 def play():
-    return template('play', current_page='play')
+    return {'current_page': 'play'}
 
 @route('/')
+@view('main')
 def main():
-    return template('main', current_page='home')
+    return {'current_page': 'home'}
 
 @route('/statistics/')
+@view('statistics')
 def statistics():
     global conn
     c = conn.cursor()
@@ -125,13 +126,14 @@ def statistics():
     avg_opt_sol_len /= games_played
     avg_opt_sol_len = round(avg_opt_sol_len, 2)
 
-    return template('statistics', current_page='statistics', games_played=games_played,
-                    optimal_games_played=optimal_games_played,
-                    avg_opt_sol_len=avg_opt_sol_len, avg_usr_sol_len=avg_usr_sol_len,
-                    opt_moves=opt_moves, usr_moves=moves, acc=acc)
+    return {'current_page': 'statistics', 'games_played': games_played,
+            'optimal_games_played': optimal_games_played,
+            'avg_opt_sol_len': avg_opt_sol_len, 'avg_usr_sol_len': avg_usr_sol_len,
+            'opt_moves': opt_moves, 'usr_moves': moves, 'acc': acc}
 
 @route('/about/')
+@view('about')
 def about():
-    return template('about', current_page='about')
+    return {'current_page' :'about'}
 
 run(host='localhost', port=8080)

@@ -5,11 +5,11 @@
   <table>
     <tr>
       <td><label>Minimal number of optimal moves:</label></td>
-      <td><input type='text' name='mini' value='3'></td>
+      <td><input type='text' name='mini' value='3' id='mini'></td>
     </tr>
     <tr>
       <td><label>Maximal number of optimal moves:</label></td>
-      <td><input type='text' name='maxi' value='5'></td>
+      <td><input type='text' name='maxi' value='5' id='maxi'></td>
     </tr>
   </table>
   <input type="button" name='done' value='Run' class='btn btn-primary' id='runbutton' onclick="run_test()">
@@ -79,7 +79,9 @@ function run_test() {
   glob.running = true;
   glob.result = undefined;
   $("#runbutton").attr("disabled", true);
-  $.post('/runapp/', {'mini': 3, 'maxi': 5}, function(data) {
+  var mini = parseInt($("#mini").val());
+  var maxi = parseInt($("#maxi").val());
+  $.post('/runapp/', {'mini': mini, 'maxi': maxi}, function(data) {
     glob.problem = $.parseJSON(data);
   });
   setTimeout(has_ended, 1000);
