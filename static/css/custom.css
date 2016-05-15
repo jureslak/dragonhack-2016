@@ -101,3 +101,11 @@ h1 {
 .path li {
   display: inline;
 }
+
+ul.about {
+  list-style-type: circle;
+}
+
+ul.about li {
+  padding-bottom: 5px;
+}
