@@ -13,7 +13,7 @@
 using namespace std;
 
 sf::RenderWindow *window;
-mutex *mtx1, *mtx3, *mtx4;
+mutex *mtx1, *mtx3, *mtx4, *mtx5;
 bool game = true;
 sf::Sprite *spr;
 sf::RectangleShape *rect;
@@ -23,8 +23,11 @@ int movCnt = 0;
 chrono::high_resolution_clock::time_point hrTimer;
 sf::Text *text;
 sf::CircleShape *tri;
+double avgDev = 0;
 
 #define MYO_CALL_TIME 50
+//#define PATH "C:\\Users\\milos\\Desktop\\"
+#define PATH ""
 
 void get_input_data(std::vector<std::vector<int>>& balls) {
 	for (auto& x : balls) {
@@ -70,6 +73,8 @@ public:
 		from = 0;
 		moveCount = 0;
 		in_hand = 0;
+		sum_deviation = 0;
+		num_data_points = 0;
 		balls.resize(max);
 		target.resize(max);
 		towers.resize(max);
@@ -97,6 +102,14 @@ public:
 	void onUnpair(myo::Myo* myo, uint64_t timestamp) {
 		onArm = false;
 		isUnlocked = false;
+	}
+	void onAccelerometerData(myo::Myo* myo, uint64_t timestamp, const myo::Vector3<float>& acc) {
+		sum_deviation += acc.x() * acc.x() + acc.y() * acc.y() + acc.z() * acc.z();
+		num_data_points++;
+		avg_deviation = sum_deviation / num_data_points;
+		mtx5->lock();
+		avgDev = avg_deviation;
+		mtx5->unlock();
 	}
 	void onPose(myo::Myo* myo, uint64_t timestamp, myo::Pose pose) {
 		currentPose = pose;
@@ -143,7 +156,7 @@ public:
 			mtx4->lock();
 			grabbedId = in_hand;
 			position = pos;
-			if(in_hand != 0) bdat[in_hand - 1] = make_pair(80 + pos*230, 20);
+			if (in_hand != 0) bdat[in_hand - 1] = make_pair(80 + pos * 230, 20);
 			mtx4->unlock();
 		}
 		else {
@@ -173,6 +186,9 @@ public:
 	int moveCount;
 	int in_hand;
 	int from;
+	double sum_deviation;
+	double num_data_points;
+	double avg_deviation;
 	bool grabbed;
 	std::vector<std::vector<int>> balls, target;
 	std::vector<int> towers;
@@ -205,6 +221,7 @@ void myoRoutine() {
 			mtx3->lock();
 			game = false;
 			mtx3->unlock();
+			cout << -1 << " " << avgDev;
 			break;
 		}
 	}
@@ -217,6 +234,7 @@ void myoRoutine() {
 
 void draw() {
 	mtx4->lock();
+	mtx5->lock();
 	mtx3->lock();
 
 	for (int i = 0; i < 8; i++) {
@@ -248,6 +266,14 @@ void draw() {
 		while (temp_string.size() > temp_cnt + 2) temp_string.pop_back();
 		text[0].setString("Time: " + temp_string + " s");
 		text[1].setString("Moves: " + to_string(movCnt));
+		temp_cnt = 0;
+		temp_string = to_string(avgDev);
+		for (int i = 0; i < temp_string.size(); i++) {
+			temp_cnt++;
+			if (temp_string[i] == '.') break;
+		}
+		while (temp_string.size() > temp_cnt + 3) temp_string.pop_back();
+		text[4].setString("AAD: " + temp_string + " ");
 	}
 	else {
 		window->draw(text[2]);
@@ -255,16 +281,19 @@ void draw() {
 	window->draw(text[0]);
 	window->draw(text[1]);
 	window->draw(text[3]);
+	window->draw(text[4]);
 
-	mtx4->unlock();
 	mtx3->unlock();
+	mtx5->unlock();
+	mtx4->unlock();
 }
 
 int main() {
-	thread *myoThread;
+	thread *myoThread = nullptr;
 	mtx1 = new mutex();
 	mtx3 = new mutex();
 	mtx4 = new mutex();
+	mtx5 = new mutex();
 	mtx1->lock();
 
 	bool running = true;
@@ -272,7 +301,7 @@ int main() {
 	spr = new sf::Sprite[8];
 	sf::Texture tex[4];
 	for (int i = 0; i < 4; i++) {
-		string temp = "images\\ball-trans" + to_string(i+1) + ".png";
+		string temp = PATH + string("images\\ball") + to_string(i+1) + "-trans.png";
 		if (!tex[i].loadFromFile(temp)) {
 			running = false;
 			break;
@@ -281,9 +310,9 @@ int main() {
 			tex[i].setRepeated(false);
 			tex[i].setSmooth(true);
 			spr[i].setTexture(tex[i]);
-			spr[i].setScale(sf::Vector2f(0.5f, 0.5f));
+			spr[i].setScale(sf::Vector2f(0.517f, 0.517f));
 			spr[i + 4].setTexture(tex[i]);
-			spr[i + 4].setScale(sf::Vector2f(0.5f, 0.5f));
+			spr[i + 4].setScale(sf::Vector2f(0.517f, 0.517f));
 		}
 	}
 
@@ -315,11 +344,11 @@ int main() {
 	rect[7].setFillColor(sf::Color(139, 69, 19, 255));
 
 	sf::Font font;
-	if (!font.loadFromFile("arial.ttf"))
+	if (!font.loadFromFile(PATH + string("arial.ttf")))
 	{
 		running = false;
 	}
-	text = new sf::Text[4];
+	text = new sf::Text[5];
 	text[0].setFont(font);
 	text[0].setString("Time: 0 s");
 	text[0].setCharacterSize(24);
@@ -340,6 +369,11 @@ int main() {
 	text[3].setCharacterSize(50);
 	text[3].setColor(sf::Color::Black);
 	text[3].setPosition(sf::Vector2f(1145.0f, 30.0f));
+	text[4].setFont(font);
+	text[4].setString("AAD: 0 ");
+	text[4].setCharacterSize(24);
+	text[4].setColor(sf::Color::White);
+	text[4].setPosition(sf::Vector2f(600.0f, 850.0f));
 
 	tri = new sf::CircleShape(50, 3);
 	tri->setPosition(sf::Vector2f(0.0f, 0.0f));
@@ -349,7 +383,7 @@ int main() {
 	if (running) {
 		myoThread = new thread(myoRoutine);
 
-		window = new sf::RenderWindow(sf::VideoMode(1600, 900, 32), "Jimm?");
+		window = new sf::RenderWindow(sf::VideoMode(1600, 900, 32), "Jimm?", sf::Style::Fullscreen);
 		window->setFramerateLimit(60);
 		window->setKeyRepeatEnabled(false);
 	}
@@ -386,5 +420,6 @@ int main() {
 	delete mtx1;
 	delete mtx3;
 	delete mtx4;
+	delete mtx5;
 	return 0;
 }
